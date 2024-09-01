@@ -1,13 +1,10 @@
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import styles from "./PageNav.module.css";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "../config/supabaseClient";
 import { useState, useEffect } from "react";
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+
 
 
 

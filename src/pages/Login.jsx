@@ -4,12 +4,7 @@ import Button from "../components/Button";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import supabase from "../config/supabaseClient";
 
 export default function Login() {
   // PRE-FILL FOR DEV PURPOSES
