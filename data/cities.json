@@ -1,0 +1,88 @@
+{
+  "cities": [
+    {
+      "cityName": "Pune",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "2024-08-31T09:00:21.949Z",
+      "notes": "cool",
+      "position": {
+        "lat": "18.464663938699864",
+        "lng": "73.88305664062501"
+      },
+      "id": 1
+    },
+    {
+      "cityName": "Qŭnghirot",
+      "country": "Uzbekistan",
+      "emoji": "🇺🇿",
+      "date": "2024-08-31T09:28:29.845Z",
+      "notes": "vv",
+      "position": {
+        "lat": "43.73830873326025",
+        "lng": "57.45849609375001"
+      },
+      "id": 2
+    },
+    {
+      "cityName": "Kahuta",
+      "country": "Pakistan",
+      "emoji": "🇵🇰",
+      "date": "2024-08-31T09:28:40.404Z",
+      "notes": "cscs",
+      "position": {
+        "lat": "33.71439810610234",
+        "lng": "73.47656250000001"
+      },
+      "id": 3
+    },
+    {
+      "cityName": "Moga",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "2024-08-31T09:28:46.808Z",
+      "notes": "s",
+      "position": {
+        "lat": "30.804267217602934",
+        "lng": "75.38818359375"
+      },
+      "id": 4
+    },
+    {
+      "cityName": "Delhi",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "2024-08-31T09:28:51.684Z",
+      "notes": "vedv",
+      "position": {
+        "lat": "28.590251380001785",
+        "lng": "77.23388671875"
+      },
+      "id": 5
+    },
+    {
+      "cityName": "Surat",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "2024-08-31T09:29:14.691Z",
+      "notes": "bfb",
+      "position": {
+        "lat": "21.22691730673025",
+        "lng": "72.85583496093751"
+      },
+      "id": 6
+    },
+    {
+      "cityName": "Sambhaji Nagar",
+      "country": "India",
+      "emoji": "🇮🇳",
+      "date": "2024-08-31T18:05:50.705Z",
+      "notes": "vfvrvr",
+      "position": {
+        "lat": "19.960374941910274",
+        "lng": "75.56396484375001"
+      },
+      "id": 7
+    }
+  ]
+}
