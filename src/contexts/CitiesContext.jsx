@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import supabase from "../config/supabaseClient";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./FakeAuthContext";
 
 const CitiesContext = createContext();
 

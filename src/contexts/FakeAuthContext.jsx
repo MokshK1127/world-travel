@@ -1,47 +1,124 @@
 import { createContext, useContext, useReducer } from "react";
+import supabase from "../config/supabaseClient";
 
 const AuthContext = createContext();
 
 const initialState = {
   user: null,
   isAuthenticated: false,
+  signinError: "",
+  signupError: "",
+  signupMessage: "",
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "login":
-      return { ...state, user: action.payload, isAuthenticated: true };
-    case "logout":
-      return { ...state, user: null, isAuthenticated: false };
+    case "signup":
+      return {
+        ...state,
+        signupMessage: action.payload,
+        signupError: "",
+      };
+    case "signup/error":
+      return {
+        ...state,
+        signupMessage: "",
+        signupError: action.payload,
+      };
+
+    case "signin":
+      return {
+        ...state,
+        user: {
+          id: action.payload.id,
+          name: action.payload.user_metadata.display_name,
+          avatar: action.payload.user_metadata.avatar,
+        },
+        isAuthenticated: true,
+        signinError: "",
+      };
+    case "signin/error":
+      return {
+        ...state,
+        signinError: action.payload,
+      };
+
+    case "signout":
+      return initialState;
+
     default:
-      throw new Error("Unknown action");
+      throw new Error("Unknown action type");
   }
 }
 
-const FAKE_USER = {
-  name: "Jack",
-  email: "jack@example.com",
-  password: "qwerty",
-  avatar: "https://i.pravatar.cc/100?u=zz",
-};
+const image = "https://i.pravatar.cc/100";
+function randomNumber() {
+  return Math.floor(Math.random() * 1000) + 1;
+}
 
 function AuthProvider({ children }) {
-  const [{ user, isAuthenticated }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [
+    { user, isAuthenticated, signinError, signupError, signupMessage },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
-  function login(email, password) {
-    if (email === FAKE_USER.email && password === FAKE_USER.password)
-      dispatch({ type: "login", payload: FAKE_USER });
+  async function signin(email, password) {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      // console.log("Signin", data, error);
+      if (error) throw new Error(error.message);
+      dispatch({ type: "signin", payload: data.user });
+    } catch (error) {
+      dispatch({ type: "signin/error", payload: error.message });
+      // console.error(error.message);
+    }
   }
 
-  function logout() {
-    dispatch({ type: "logout" });
+  async function signup(name, email, password) {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: name,
+            avatar: `${image}?=${randomNumber()}`,
+          },
+        },
+      });
+      // console.log("Signup", data, error);
+      if (error) throw new Error(error.message);
+      dispatch({
+        type: "signup",
+        payload: "Check your email for confirmation.",
+      });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: "signup/error", payload: error.message });
+    }
+  }
+
+  async function signout() {
+    await supabase.auth.signOut();
+    dispatch({ type: "signout" });
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        signinError,
+        signupError,
+        signupMessage,
+        signin,
+        signout,
+        signup,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
