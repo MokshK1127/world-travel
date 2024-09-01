@@ -4,38 +4,25 @@ import Button from "../components/Button";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
-import supabase from "../config/supabaseClient";
 
 export default function SignUp() {
   // PRE-FILL FOR DEV PURPOSES
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { login, isAuthenticated } = useAuth();
+  const [name, setName] = useState("");
+  const { signup, isAuthenticated } = useAuth();
 
 
   const navigate = useNavigate();
 
-  async function signUpNewUser(email, password) {
-    const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
+ 
 
-    if(error){
-        alert("User Already Exists");
-    }
-    else{
-      navigate("/app/cities")
-    }
-    return { data, error };
-  }
-
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    if (email && password) {
-      signUpNewUser(email, password);
+    if (name && email && password) {
+      await signup(name, email, password);
+      navigate("/app/cities")
     }
   }
 
@@ -51,6 +38,15 @@ export default function SignUp() {
       <PageNav />
 
       <form className={styles.form} onSubmit={handleSubmit}>
+      <div className={styles.row}>
+          <label htmlFor="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+        </div>
         <div className={styles.row}>
           <label htmlFor="email">Email address</label>
           <input

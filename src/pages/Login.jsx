@@ -4,34 +4,22 @@ import Button from "../components/Button";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./Login.module.css";
-import supabase from "../config/supabaseClient";
 
 export default function Login() {
   // PRE-FILL FOR DEV PURPOSES
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, isAuthenticated } = useAuth();
+  const { signin, isAuthenticated } = useAuth();
 
-  async function signInUser(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-    if (error) {
-      alert("Wrong Credentials ❌");
-    } else {
-      navigate("/app/cities");
-    }
-    return { data, error };
-  }
+  
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (email && password) {
-      signInUser(email, password);
+      await signin(email, password);
     }
   }
 

@@ -124,6 +124,7 @@ function CitiesProvider({ children }) {
         .insert([newCity])
         .select()
         .single();
+      console.log("DATA A:", newCity)
       const newCityData = {
         cityName: data.cityName,
         country: data.country,

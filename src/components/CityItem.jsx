@@ -11,7 +11,14 @@ const formatDate = (date) =>
 
 function CityItem({ city }) {
   const { currentCity, deleteCity } = useCities();
-  const { cityName, emoji, date, id, position } = city;
+  const {
+    cityName,
+    emoji,
+    dateVisited: date,
+    id,
+    latitude: lat,
+    longitude: lng,
+  } = city;
 
   const flagemojiToPNG = (flag) => {
     const countryCode = Array.from(flag, (codeUnit) => codeUnit.codePointAt())
@@ -36,7 +43,7 @@ function CityItem({ city }) {
         className={`${styles.cityItem} ${
           id === currentCity.id ? styles["cityItem--active"] : ""
         }`}
-        to={`${id}?lat=${position.lat}&lng=${position.lng}`}
+        to={`${id}?lat=${lat}&lng=${lng}`}
       >
         <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>
         <h3 className={styles.name}>{cityName}</h3>
@@ -50,3 +57,5 @@ function CityItem({ city }) {
 }
 
 export default CityItem;
+
+

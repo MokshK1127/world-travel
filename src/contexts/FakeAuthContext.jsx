@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import supabase from "../config/supabaseClient";
 
 const AuthContext = createContext();
@@ -16,6 +16,11 @@ function reducer(state, action) {
     case "signup":
       return {
         ...state,
+        user: {
+          id: action.payload.id,
+          name: action.payload.user_metadata.display_name,
+          avatar: action.payload.user_metadata.avatar,
+        },
         signupMessage: action.payload,
         signupError: "",
       };
@@ -62,6 +67,20 @@ function AuthProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, initialState);
 
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await supabase.auth.getUser();
+      if (user.data.user) {
+        dispatch({
+          type: "signin",
+          payload: user.data.user,
+        });
+      }
+    };
+
+    getUser();
+  }, []);
+
   async function signin(email, password) {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -93,7 +112,7 @@ function AuthProvider({ children }) {
       if (error) throw new Error(error.message);
       dispatch({
         type: "signup",
-        payload: "Check your email for confirmation.",
+        payload: data.user,
       });
     } catch (error) {
       console.error(error);

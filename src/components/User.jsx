@@ -1,27 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./User.module.css";
-import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
-
-const userSignOut = async () => {
-  const { error } = await supabase.auth.signOut();
-};
 function User() {
+  const { user, signout } = useAuth();
   const navigate = useNavigate();
 
-  function handleClick() {
-    userSignOut();
+  function handleClick(e) {
+    e.preventDefault();
+    signout();
     navigate("/");
   }
 
+  if (!user) return;
+
   return (
     <div className={styles.user}>
-      <span>Welcome, User 😊</span>
-      <button onClick={handleClick}>Logout</button>
+      <span>Welcome, {user.name} 😊</span>
+      <button onClick={(e) => handleClick(e)}>Sign-out</button>
     </div>
   );
 }
