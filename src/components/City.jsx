@@ -24,8 +24,8 @@ function City() {
     [id, getCity]
   );
 
-  const { cityName, emoji, date, notes } = currentCity;
-
+  const { cityName, emoji, dateVisited, notes } = currentCity;
+  console.log(dateVisited);
   if (isLoading) return <Spinner />;
 
   return (
@@ -39,7 +39,8 @@ function City() {
 
       <div className={styles.row}>
         <h6>You went to {cityName} on</h6>
-        <p>{formatDate(date || null)}</p>
+
+        <p>{formatDate(dateVisited || null)}</p>
       </div>
 
       {notes && (
